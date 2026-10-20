@@ -14,7 +14,9 @@
     kidana:    { name: "Mina, Makkah", coord: [39.8933, 21.4133], view: { center: [39.8933, 21.4133], zoom: 14.2, tilt: 68, heading: 60 }, layers: ["clients"], orbit: "heading" },
     riyadh:    { name: "Riyadh", coord: [46.6753, 24.7136], view: { center: [46.68, 24.8], zoom: 10.4, tilt: 58, heading: 350 }, layers: ["clients"] },
     cls:       { name: "Kingdom of Saudi Arabia · CLS coverage", coord: [45.0792, 23.8859], view: { center: [44.6, 23.6], zoom: 5, tilt: 38, heading: 0 }, layers: ["coverage"] },
-    career:    { name: "Karachi → Vaughan → Riyadh", coord: [67.0011, 24.8607], view: { center: [22, 38], zoom: 2.4, tilt: 12, heading: 0 }, layers: ["career"], enter: "arcs" },
+    intellyct: { name: "Vaughan, Ontario, Canada", coord: [-79.5083, 43.8361], view: { center: [-79.45, 43.75], zoom: 9.6, tilt: 55, heading: 340 }, layers: ["career"], orbit: "heading" },
+    nasfia:    { name: "Sydney, Australia", coord: [151.2093, -33.8688], view: { center: [151.21, -33.86], zoom: 12.2, tilt: 62, heading: 20 }, layers: ["career"], orbit: "heading" },
+    career:    { name: "Karachi → Sydney → Canada → Riyadh", coord: [67.0011, 24.8607], view: { center: [75, 15], zoom: 2.3, tilt: 0, heading: 0 }, layers: ["career"], enter: "arcs", orbit: "globe" },
     skills:    { name: "Riyadh", coord: [46.6753, 24.7136], view: { center: [46.6753, 24.7136], zoom: 12.3, tilt: 72, heading: 300 }, layers: ["clients"], orbit: "heading" },
     live:      { name: "Global · live feeds", coord: null, view: { center: [55, 18], zoom: 2.1, tilt: 0, heading: 0 }, layers: ["quakes", "iss"], orbit: "globe" },
     education: { name: "FAST-NUCES, Karachi", coord: [67.2647, 24.8569], view: { center: [67.2647, 24.8569], zoom: 13.4, tilt: 55, heading: 20 }, layers: ["career"] },
@@ -33,8 +35,9 @@
     { ObjectID: 8, name: "RCU", full: "Royal Commission for AlUla (RCU)", city: "AlUla", lon: 37.9232, lat: 26.6085, work: "GIS project for the Royal Commission for AlUla" },
   ];
   const PLACES = [
-    { ObjectID: 1, name: "Karachi", full: "Karachi, Pakistan", city: "2018 – 2023", lon: 67.0011, lat: 24.8607, work: "Ficiali, then Nasfia: APIs, Azure, CRM platforms" },
-    { ObjectID: 2, name: "Vaughan (remote)", full: "Vaughan, Canada", city: "2023", lon: -79.5083, lat: 43.8361, work: "Intellyct: .NET Core microservices, worked remotely" },
+    { ObjectID: 1, name: "Karachi", full: "Karachi, Pakistan", city: "2018 – 2021", lon: 67.0011, lat: 24.8607, work: "Ficiali: web apps, REST and SOAP APIs" },
+    { ObjectID: 2, name: "Intellyct · Vaughan", full: "Vaughan, Ontario, Canada", city: "Mar – Sep 2023", lon: -79.5083, lat: 43.8361, work: "Intellyct: .NET Core microservices, Kafka, Azure Service Bus (remote)" },
+    { ObjectID: 6, name: "Nasfia · Sydney", full: "Sydney, Australia", city: "Sep 2021 – Feb 2023", lon: 151.2093, lat: -33.8688, work: "Nasfia: Azure cloud platforms and CRM products" },
     { ObjectID: 3, name: "Riyadh", full: "Riyadh, Saudi Arabia", city: "2023 – present", lon: 46.6753, lat: 24.7136, work: "Geotech Overseas, then ESNAD: Senior GIS Developer" },
     { ObjectID: 5, name: "Jeddah", full: "Jeddah, Saudi Arabia", city: "Open to roles", lon: 39.1925, lat: 21.4858, work: "Available for GIS roles in Jeddah as well as Riyadh" },
     { ObjectID: 4, name: "FAST-NUCES", full: "FAST-NUCES Karachi campus", city: "2016 – 2020", lon: 67.2647, lat: 24.8569, work: "BS Computer Science" },
@@ -210,8 +213,8 @@
       visible: false,
     });
 
-    const clientsLayer = pointLayer(CLIENTS, "#ff8a3d", "Client sites");
-    const placesLayer = pointLayer(PLACES, "#3fd0c9", "Career path");
+    const clientsLayer = pointLayer(CLIENTS, "#4da3ff", "Client sites");
+    const placesLayer = pointLayer(PLACES, "#8bd3a0", "Career path");
     const arcsLayer = new GraphicsLayer({ title: "Career arcs", elevationInfo: { mode: "absolute-height" }, visible: false });
     const licLayer = new GraphicsLayer({ title: "License demo", elevationInfo: { mode: "on-the-ground" }, visible: false });
     const issLayer = new GraphicsLayer({ title: "ISS", elevationInfo: { mode: "absolute-height" }, visible: false });
@@ -222,14 +225,14 @@
       definitionExpression: "ISO = 'SA'",
       title: "CLS coverage · Saudi Arabia",
       elevationInfo: { mode: "on-the-ground" },
-      renderer: { type: "simple", symbol: { type: "polygon-3d", symbolLayers: [{ type: "fill", material: { color: [63, 208, 201, 0.28] }, outline: { color: [63, 208, 201, 1], size: 2 } }] } },
+      renderer: { type: "simple", symbol: { type: "polygon-3d", symbolLayers: [{ type: "fill", material: { color: [139, 211, 160, 0.28] }, outline: { color: [139, 211, 160, 1], size: 2 } }] } },
       popupTemplate: { title: "Caller Location Service", content: "Used across the whole Kingdom of Saudi Arabia." },
       visible: false,
     });
-    const clsCitiesLayer = pointLayer(CLS_CITIES, "#3fd0c9", "CLS cities");
+    const clsCitiesLayer = pointLayer(CLS_CITIES, "#8bd3a0", "CLS cities");
     clsCitiesLayer.renderer = {
       type: "simple",
-      symbol: { type: "point-3d", symbolLayers: [{ type: "icon", resource: { primitive: "circle" }, material: { color: [63, 208, 201, 0.95] }, outline: { color: "white", size: 1.2 }, size: 8 }] },
+      symbol: { type: "point-3d", symbolLayers: [{ type: "icon", resource: { primitive: "circle" }, material: { color: [139, 211, 160, 0.95] }, outline: { color: "white", size: 1.2 }, size: 8 }] },
     };
 
     map.addMany([ksaLayer, licLayer, arcsLayer, placesLayer, clsCitiesLayer, clientsLayer, issLayer]);
@@ -306,8 +309,8 @@
     const appArea = km2(appGeom), overlapArea = km2(overlapGeom), resultArea = km2(resultGeom);
 
     const existingGraphics = EXISTING.flatMap((e, i) => [
-      new Graphic({ geometry: existing[i], symbol: fill([255, 176, 72, 0.22], [255, 176, 72, 0.95]) }),
-      new Graphic({ geometry: existing[i].centroid, symbol: tag(e.id, "#ffd6a0") }),
+      new Graphic({ geometry: existing[i], symbol: fill([245, 225, 185, 0.22], [255, 240, 205, 1], 2) }),
+      new Graphic({ geometry: existing[i].centroid, symbol: tag(e.id, "#f0dcb4") }),
     ]);
     const appGraphics = [
       new Graphic({ geometry: appGeom, symbol: fill([255, 255, 255, 0.1], [0, 0, 0, 0], 0) }),
@@ -319,8 +322,8 @@
     ];
     const overlapGraphic = new Graphic({ geometry: overlapGeom, symbol: fill([255, 60, 60, 0.6], [255, 110, 110, 1]) });
     const resultGraphics = [
-      new Graphic({ geometry: resultGeom, symbol: fill([63, 208, 201, 0.4], [63, 208, 201, 1], 2) }),
-      new Graphic({ geometry: resultGeom.centroid, symbol: tag(APPLICATION.id + " ✓", "#b8fffb") }),
+      new Graphic({ geometry: resultGeom, symbol: fill([77, 163, 255, 0.5], [150, 200, 255, 1], 2.5) }),
+      new Graphic({ geometry: resultGeom.centroid, symbol: tag(APPLICATION.id + " ✓", "#cfe5ff") }),
     ];
 
     const steps = Array.from(document.querySelectorAll("#deductionSteps li"));
@@ -378,12 +381,13 @@
       return pts;
     }
     const ARCS = [
-      { from: [67.0011, 24.8607], to: [-79.5083, 43.8361], dashed: true },  // remote role
+      { from: [67.0011, 24.8607], to: [151.2093, -33.8688], dashed: false }, // Nasfia, Sydney
+      { from: [67.0011, 24.8607], to: [-79.5083, 43.8361], dashed: true },  // Intellyct, remote
       { from: [67.0011, 24.8607], to: [46.6753, 24.7136], dashed: false },  // relocation
     ].map((a) => ({ ...a, pts: greatCircle(a.from, a.to) }));
     const arcSymbol = (dashed) => ({
       type: "line-3d",
-      symbolLayers: [{ type: "line", size: 3, material: { color: [63, 208, 201, 0.95] }, cap: "round", join: "round", ...(dashed ? { pattern: { type: "style", style: "dash" } } : {}) }],
+      symbolLayers: [{ type: "line", size: 3, material: { color: [139, 211, 160, 0.95] }, cap: "round", join: "round", ...(dashed ? { pattern: { type: "style", style: "dash" } } : {}) }],
     });
     let arcAnim = 0;
     function drawArcs() {
@@ -413,12 +417,12 @@
       symbol: {
         type: "point-3d",
         symbolLayers: [
-          { type: "icon", resource: { primitive: "kite" }, material: { color: "white" }, outline: { color: "#3fd0c9", size: 2 }, size: 16 },
+          { type: "icon", resource: { primitive: "kite" }, material: { color: "white" }, outline: { color: "#8bd3a0", size: 2 }, size: 16 },
         ],
       },
       popupTemplate: { title: "International Space Station", content: "Live position, refreshed every 5 seconds from api.wheretheiss.at" },
     });
-    const trailGraphic = new Graphic({ symbol: { type: "line-3d", symbolLayers: [{ type: "line", size: 2, material: { color: [63, 208, 201, 0.7] } }] } });
+    const trailGraphic = new Graphic({ symbol: { type: "line-3d", symbolLayers: [{ type: "line", size: 2, material: { color: [139, 211, 160, 0.7] } }] } });
     const trail = [[]];
     issHook = (d) => {
       const pt = [d.longitude, d.latitude, d.altitude * 1000];
@@ -488,6 +492,7 @@
       flyTo(id);
       if (ch.enter === "deduction") runDeduction();
       if (ch.enter === "arcs") drawArcs();
+      else if (ch.layers.includes("career") && !arcsLayer.graphics.length) drawArcs();
     }
     listeners.push(onChapter);
 

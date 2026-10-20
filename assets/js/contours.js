@@ -78,7 +78,7 @@
           }
         }
       }
-      ctx.strokeStyle = index ? "rgba(120, 200, 180, 0.16)" : "rgba(120, 200, 180, 0.075)";
+      ctx.strokeStyle = index ? "rgba(140, 175, 205, 0.16)" : "rgba(140, 175, 205, 0.075)";
       ctx.lineWidth = index ? 1.1 : 0.8;
       ctx.stroke();
     }

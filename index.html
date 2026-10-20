@@ -74,6 +74,7 @@
           <p class="panel-label mono">OPERATIONAL LAYERS</p>
           <label class="toggle"><input type="checkbox" data-layer="clients"><span class="sw sw-point"></span>Client sites</label>
           <label class="toggle"><input type="checkbox" data-layer="licenses"><span class="sw sw-poly"></span>License demo</label>
+          <label class="toggle"><input type="checkbox" data-layer="coverage"><span class="sw sw-cov"></span>CLS coverage · KSA</label>
           <label class="toggle"><input type="checkbox" data-layer="career"><span class="sw sw-line"></span>Career path</label>
           <label class="toggle"><input type="checkbox" data-layer="quakes"><span class="sw sw-quake"></span>Earthquakes · USGS live</label>
           <label class="toggle"><input type="checkbox" data-layer="iss"><span class="sw sw-iss"></span>ISS · live position</label>
@@ -95,11 +96,11 @@
 
       <section class="chapter chapter-intro" id="intro" data-chapter="intro">
         <div class="meta mono"><span class="lyr">LYR 00</span><span>INTRO</span><span>24.7136° N · 46.6753° E</span></div>
-        <p class="eyebrow">Senior GIS Developer · Riyadh, Saudi Arabia</p>
+        <p class="eyebrow">Senior GIS Developer · Based in Riyadh, Saudi Arabia</p>
         <h1>Irfan Ali</h1>
         <p class="lede">I build enterprise Esri GIS for Saudi government and infrastructure: custom web GIS portals, spatial automation, enterprise geodatabases, and ArcGIS Enterprise from service publishing to high availability and disaster recovery.</p>
         <ul class="tags">
-          <li class="tag tag-accent">Transferable Iqama</li>
+          <li class="tag tag-accent">Riyadh (current) · Jeddah</li>
           <li class="tag">8 years in software engineering</li>
           <li class="tag">ArcGIS Enterprise · Maps SDK for JS</li>
         </ul>
@@ -108,7 +109,7 @@
           <a class="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
         <dl class="stats">
-          <div><dt>Gov &amp; infra clients</dt><dd>7</dd></div>
+          <div><dt>Gov &amp; infra clients</dt><dd>8</dd></div>
           <div><dt>Caller location lookup</dt><dd>0.44<small>ms</small></dd></div>
           <div><dt>ArcGIS Enterprise</dt><dd>HA<small>/DR</small></dd></div>
         </dl>
@@ -119,7 +120,7 @@
         <div class="meta mono"><span class="lyr">LYR 01</span><span>PROFILE</span><span>23.8859° N · 45.0792° E</span></div>
         <h2>Enterprise GIS for the Kingdom's public sector</h2>
         <p>Senior GIS Developer with 8 years in software engineering. I work directly with stakeholders from requirements through delivery and production support, and I use AI tools every day to design, code, test, and document faster.</p>
-        <p class="table-caption mono">ATTRIBUTE TABLE · clients.geojson · 7 features <span class="hint">· select a row to locate it</span></p>
+        <p class="table-caption mono">ATTRIBUTE TABLE · clients.geojson · 8 features <span class="hint">· select a row to locate it</span></p>
         <div class="table-wrap">
           <table class="attr" id="clientTable">
             <thead><tr><th>OID</th><th>CLIENT</th><th>WORK</th><th>CITY</th></tr></thead>
@@ -129,8 +130,9 @@
               <tr tabindex="0" data-oid="3"><td>3</td><td>Ministry of Hajj · KIDANA</td><td>Holy-site land allocation</td><td>Makkah</td></tr>
               <tr tabindex="0" data-oid="4"><td>4</td><td>Ministry of Culture</td><td>GIS delivery</td><td>Riyadh</td></tr>
               <tr tabindex="0" data-oid="5"><td>5</td><td>SDAIA</td><td>GIS delivery</td><td>Riyadh</td></tr>
-              <tr tabindex="0" data-oid="6"><td>6</td><td>National Information Center</td><td>Caller Location Service</td><td>Riyadh</td></tr>
+              <tr tabindex="0" data-oid="6"><td>6</td><td>National Information Center</td><td>Caller Location Service</td><td>Kingdom-wide</td></tr>
               <tr tabindex="0" data-oid="7"><td>7</td><td>Riyadh Airports</td><td>Airport maps &amp; layers</td><td>Riyadh</td></tr>
+              <tr tabindex="0" data-oid="8"><td>8</td><td>Royal Commission for AlUla (RCU)</td><td>GIS project</td><td>AlUla</td></tr>
             </tbody>
           </table>
         </div>
@@ -184,6 +186,18 @@
         <div class="meta mono"><span class="lyr">LYR 04</span><span>EXPERIENCE</span><span>24.7136° N · 46.6753° E</span></div>
         <p class="role"><strong>Senior GIS Developer</strong> · Geotech Overseas<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
         <h2>Airports, national services, and land information</h2>
+        <p>Riyadh is home base and where most of my government clients sit.</p>
+        <ul class="bullets">
+          <li>Built GIS maps and layers for <b>Riyadh Airports</b>, and delivered GIS work for <b>SDAIA</b> and the <b>Ministry of Culture</b>.</li>
+          <li>Architected a multi-tenant <b>Land Information System</b> with Esri web mapping, parcel and valuation tools, enterprise geodatabase design, and ArcGIS Dashboards for government clients.</li>
+        </ul>
+      </section>
+
+      <section class="chapter" id="cls" data-chapter="cls" data-nav="experience">
+        <div class="meta mono"><span class="lyr">LYR 05</span><span>EXPERIENCE</span><span>KINGDOM-WIDE</span></div>
+        <p class="role"><strong>Senior GIS Developer</strong> · Geotech Overseas for the National Information Center<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
+        <h2>Caller Location Service, used across the whole Kingdom</h2>
+        <p>The <b>Caller Location Service (CLS)</b> I built for the National Information Center isn't tied to one city. It serves location lookups for the entire Kingdom of Saudi Arabia, from Riyadh and Jeddah to Dammam, Tabuk, and Jazan. The shaded area on the map is its coverage.</p>
         <div class="speed">
           <p class="mono speed-label">NIC CALLER LOCATION SERVICE · lookup time</p>
           <div class="speed-row"><span class="mono">Before</span><span class="bar bar-before"><i></i></span><b>4,000 ms</b></div>
@@ -191,14 +205,13 @@
           <p class="speed-note">About 9,000× faster, using RabbitMQ and Memcached.</p>
         </div>
         <ul class="bullets">
-          <li>Built the <b>Caller Location Service</b> for the National Information Center (NIC).</li>
-          <li>Built GIS maps and layers for <b>Riyadh Airports</b>, and delivered GIS work for <b>SDAIA</b> and the <b>Ministry of Culture</b>.</li>
-          <li>Architected a multi-tenant <b>Land Information System</b> with Esri web mapping, parcel and valuation tools, enterprise geodatabase design, and ArcGIS Dashboards for government clients.</li>
+          <li>Re-engineered the lookup path with <b>RabbitMQ</b> and <b>Memcached</b>, taking response times from 4 seconds to 0.44 ms.</li>
+          <li>Built to serve requests from every region of the Kingdom, not a single city.</li>
         </ul>
       </section>
 
       <section class="chapter" id="career" data-chapter="career" data-nav="experience">
-        <div class="meta mono"><span class="lyr">LYR 05</span><span>EXPERIENCE</span><span>24.8607° N · 67.0011° E</span></div>
+        <div class="meta mono"><span class="lyr">LYR 06</span><span>EXPERIENCE</span><span>24.8607° N · 67.0011° E</span></div>
         <h2>Software engineering foundations</h2>
         <p>Before GIS, five years building APIs, distributed systems, and cloud platforms. The arcs on the map trace the route: Karachi, a remote role for a Canadian company, then Riyadh.</p>
         <ol class="timeline">
@@ -218,7 +231,7 @@
       </section>
 
       <section class="chapter" id="skills" data-chapter="skills" data-nav="skills">
-        <div class="meta mono"><span class="lyr">LYR 06</span><span>LEGEND</span><span>24.7136° N · 46.6753° E</span></div>
+        <div class="meta mono"><span class="lyr">LYR 07</span><span>LEGEND</span><span>24.7136° N · 46.6753° E</span></div>
         <h2>Toolkit</h2>
         <div class="legend">
           <div class="legend-item">
@@ -257,7 +270,7 @@
       </section>
 
       <section class="chapter" id="live" data-chapter="live" data-nav="live">
-        <div class="meta mono"><span class="lyr">LYR 07</span><span>LIVE FEEDS</span><span>GLOBAL</span></div>
+        <div class="meta mono"><span class="lyr">LYR 08</span><span>LIVE FEEDS</span><span>GLOBAL</span></div>
         <h2>Live layers from public feeds</h2>
         <p>This part of the map is not pre-baked. Your browser is pulling it right now from public REST endpoints and drawing it on the 3D globe, the same pattern I use to bring government services into ArcGIS.</p>
         <div class="live-grid">
@@ -276,7 +289,7 @@
       </section>
 
       <section class="chapter" id="education" data-chapter="education" data-nav="education">
-        <div class="meta mono"><span class="lyr">LYR 08</span><span>EDUCATION</span><span>24.8569° N · 67.2647° E</span></div>
+        <div class="meta mono"><span class="lyr">LYR 09</span><span>EDUCATION</span><span>24.8569° N · 67.2647° E</span></div>
         <h2>Education &amp; certifications</h2>
         <p class="role"><strong>BS Computer Science</strong> · FAST-NUCES, National University of Computer and Emerging Sciences<span class="when mono">Aug 2016 – Sep 2020 · Karachi</span></p>
         <ul class="certs">
@@ -288,10 +301,11 @@
       </section>
 
       <section class="chapter chapter-contact" id="contact" data-chapter="contact" data-nav="contact">
-        <div class="meta mono"><span class="lyr">LYR 09</span><span>CONTACT</span><span>24.7136° N · 46.6753° E</span></div>
+        <div class="meta mono"><span class="lyr">LYR 10</span><span>CONTACT</span><span>24.7136° N · 46.6753° E</span></div>
         <h2>Let's map something</h2>
-        <p>Based in Riyadh with a transferable Iqama. Open to senior GIS developer and GIS architect roles.</p>
+        <p>Currently based in Riyadh, and open to senior GIS developer and GIS architect roles in Riyadh and Jeddah.</p>
         <ul class="contact">
+          <li><span class="mono">LOCATION</span><span>Riyadh (current) · Jeddah</span></li>
           <li><span class="mono">EMAIL</span><a href="mailto:gis.irfanali@gmail.com">gis.irfanali@gmail.com</a></li>
           <li><span class="mono">PHONE</span><a href="tel:+966532058710">+966 53 205 8710</a></li>
           <li><span class="mono">LINKEDIN</span><a href="https://www.linkedin.com/in/IrfanAlee" target="_blank" rel="noopener">linkedin.com/in/IrfanAlee</a></li>

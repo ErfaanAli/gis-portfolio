@@ -190,6 +190,7 @@ img { max-width: 100%; }
 .sw { display: inline-block; width: 16px; height: 12px; flex: none; }
 .sw-point { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px #fff inset, 0 0 0 1px var(--accent); }
 .sw-poly { background: rgba(63, 208, 201, .35); border: 1.5px solid var(--feature); border-radius: 2px; }
+.sw-cov { background: rgba(63, 208, 201, .28); border: 2px solid var(--feature); border-radius: 3px 6px 2px 5px; }
 .sw-line { height: 3px; border-radius: 2px; background: var(--feature); box-shadow: 0 0 6px var(--feature); }
 .sw-quake { width: 11px; height: 11px; border-radius: 50%; background: rgba(255, 93, 93, .8); border: 1px solid #ffc8b4; }
 .sw-iss { width: 10px; height: 10px; transform: rotate(45deg); background: #fff; border: 1.5px solid var(--feature); }

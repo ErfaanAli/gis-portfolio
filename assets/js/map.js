@@ -13,6 +13,7 @@
     esnad:     { name: "Arabian Shield · license demo", coord: [41.23, 23.505], view: { center: [41.235, 23.47], zoom: 10.6, tilt: 58, heading: 12 }, layers: ["licenses"], enter: "deduction" },
     kidana:    { name: "Mina, Makkah", coord: [39.8933, 21.4133], view: { center: [39.8933, 21.4133], zoom: 14.2, tilt: 68, heading: 60 }, layers: ["clients"], orbit: "heading" },
     riyadh:    { name: "Riyadh", coord: [46.6753, 24.7136], view: { center: [46.68, 24.8], zoom: 10.4, tilt: 58, heading: 350 }, layers: ["clients"] },
+    cls:       { name: "Kingdom of Saudi Arabia · CLS coverage", coord: [45.0792, 23.8859], view: { center: [44.6, 23.6], zoom: 5, tilt: 38, heading: 0 }, layers: ["coverage"] },
     career:    { name: "Karachi → Vaughan → Riyadh", coord: [67.0011, 24.8607], view: { center: [22, 38], zoom: 2.4, tilt: 12, heading: 0 }, layers: ["career"], enter: "arcs" },
     skills:    { name: "Riyadh", coord: [46.6753, 24.7136], view: { center: [46.6753, 24.7136], zoom: 12.3, tilt: 72, heading: 300 }, layers: ["clients"], orbit: "heading" },
     live:      { name: "Global · live feeds", coord: null, view: { center: [55, 18], zoom: 2.1, tilt: 0, heading: 0 }, layers: ["quakes", "iss"], orbit: "globe" },
@@ -27,15 +28,25 @@
     { ObjectID: 3, name: "KIDANA", full: "Ministry of Hajj · KIDANA", city: "Mina, Makkah", lon: 39.8933, lat: 21.4133, work: "KIDANA Permits: holy-site land allocation with approval workflows" },
     { ObjectID: 4, name: "Ministry of Culture", full: "Ministry of Culture", city: "Riyadh", lon: 46.7, lat: 24.65, work: "GIS delivery" },
     { ObjectID: 5, name: "SDAIA", full: "Saudi Data & AI Authority", city: "Riyadh", lon: 46.625, lat: 24.725, work: "GIS delivery" },
-    { ObjectID: 6, name: "NIC", full: "National Information Center", city: "Riyadh", lon: 46.735, lat: 24.705, work: "Caller Location Service: 4 s → 0.44 ms" },
+    { ObjectID: 6, name: "NIC", full: "National Information Center", city: "Riyadh HQ · service used Kingdom-wide", lon: 46.735, lat: 24.705, work: "Caller Location Service: 4 s → 0.44 ms" },
     { ObjectID: 7, name: "Riyadh Airports", full: "Riyadh Airports · King Khalid International", city: "Riyadh", lon: 46.6988, lat: 24.9576, work: "Airport GIS maps and layers" },
+    { ObjectID: 8, name: "RCU", full: "Royal Commission for AlUla (RCU)", city: "AlUla", lon: 37.9232, lat: 26.6085, work: "GIS project for the Royal Commission for AlUla" },
   ];
   const PLACES = [
     { ObjectID: 1, name: "Karachi", full: "Karachi, Pakistan", city: "2018 – 2023", lon: 67.0011, lat: 24.8607, work: "Ficiali, then Nasfia: APIs, Azure, CRM platforms" },
     { ObjectID: 2, name: "Vaughan (remote)", full: "Vaughan, Canada", city: "2023", lon: -79.5083, lat: 43.8361, work: "Intellyct: .NET Core microservices, worked remotely" },
     { ObjectID: 3, name: "Riyadh", full: "Riyadh, Saudi Arabia", city: "2023 – present", lon: 46.6753, lat: 24.7136, work: "Geotech Overseas, then ESNAD: Senior GIS Developer" },
+    { ObjectID: 5, name: "Jeddah", full: "Jeddah, Saudi Arabia", city: "Open to roles", lon: 39.1925, lat: 21.4858, work: "Available for GIS roles in Jeddah as well as Riyadh" },
     { ObjectID: 4, name: "FAST-NUCES", full: "FAST-NUCES Karachi campus", city: "2016 – 2020", lon: 67.2647, lat: 24.8569, work: "BS Computer Science" },
   ];
+
+  // Major cities served by the Caller Location Service (it covers the whole Kingdom).
+  const CLS_CITIES = [
+    ["Riyadh", 46.6753, 24.7136], ["Jeddah", 39.1925, 21.4858], ["Makkah", 39.8262, 21.4225], ["Madinah", 39.6142, 24.4686],
+    ["Dammam", 50.1033, 26.4207], ["Tabuk", 36.5662, 28.3835], ["Abha", 42.5053, 18.2164], ["Jazan", 42.5511, 16.8892],
+    ["Hail", 41.6907, 27.5114], ["Buraidah", 43.975, 26.326], ["Najran", 44.1277, 17.5656], ["Sakaka", 40.2064, 29.9697],
+    ["Arar", 41.0381, 30.9753], ["Al Bahah", 41.4677, 20.0129],
+  ].map(([name, lon, lat], i) => ({ ObjectID: i + 1, name, full: name, city: "Caller Location Service coverage", lon, lat, work: "Served by the NIC Caller Location Service" }));
 
   // Synthetic license polygons (clockwise rings, WGS84).
   const EXISTING = [
@@ -206,7 +217,22 @@
     const issLayer = new GraphicsLayer({ title: "ISS", elevationInfo: { mode: "absolute-height" }, visible: false });
     let quakesLayer = null;
 
-    map.addMany([licLayer, arcsLayer, placesLayer, clientsLayer, issLayer]);
+    const ksaLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+      definitionExpression: "ISO = 'SA'",
+      title: "CLS coverage · Saudi Arabia",
+      elevationInfo: { mode: "on-the-ground" },
+      renderer: { type: "simple", symbol: { type: "polygon-3d", symbolLayers: [{ type: "fill", material: { color: [63, 208, 201, 0.28] }, outline: { color: [63, 208, 201, 1], size: 2 } }] } },
+      popupTemplate: { title: "Caller Location Service", content: "Used across the whole Kingdom of Saudi Arabia." },
+      visible: false,
+    });
+    const clsCitiesLayer = pointLayer(CLS_CITIES, "#3fd0c9", "CLS cities");
+    clsCitiesLayer.renderer = {
+      type: "simple",
+      symbol: { type: "point-3d", symbolLayers: [{ type: "icon", resource: { primitive: "circle" }, material: { color: [63, 208, 201, 0.95] }, outline: { color: "white", size: 1.2 }, size: 8 }] },
+    };
+
+    map.addMany([ksaLayer, licLayer, arcsLayer, placesLayer, clsCitiesLayer, clientsLayer, issLayer]);
 
     function ensureQuakes() {
       if (quakesLayer) return quakesLayer;
@@ -235,10 +261,11 @@
       clients: () => [clientsLayer],
       licenses: () => [licLayer],
       career: () => [placesLayer, arcsLayer],
+      coverage: () => [ksaLayer, clsCitiesLayer],
       quakes: () => [ensureQuakes()],
       iss: () => [issLayer],
     };
-    const state = { clients: false, licenses: false, career: false, quakes: false, iss: false };
+    const state = { clients: false, licenses: false, coverage: false, career: false, quakes: false, iss: false };
     const boxes = Array.from(document.querySelectorAll("[data-layer]"));
 
     function applyLayers() {

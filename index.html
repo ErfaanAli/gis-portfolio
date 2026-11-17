@@ -7,7 +7,7 @@
   <meta name="description" content="Irfan Ali, Senior GIS Developer in Riyadh. Enterprise Esri GIS for Saudi government and infrastructure: ArcGIS Enterprise, web GIS portals, spatial automation, HA/DR.">
   <meta name="theme-color" content="#0a1118">
   <meta property="og:title" content="Irfan Ali · Senior GIS Developer">
-  <meta property="og:description" content="Enterprise Esri GIS for Saudi government and infrastructure. Resume on a 3D map.">
+  <meta property="og:description" content="Enterprise Esri GIS for Saudi government and infrastructure. An interactive 3D map resume.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
@@ -24,13 +24,13 @@
   <header class="topbar">
     <a class="brand" href="#intro" aria-label="Irfan Ali, back to top">
       <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="16" cy="16" rx="6" ry="13" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M3 16h26M5.5 9h21M5.5 23h21" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="21" cy="12" r="2.6" fill="var(--accent)"/></svg>
-      <span>Irfan Ali <em>Senior GIS Developer</em></span>
+      <span>Irfan Ali <em>/ GIS</em></span>
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#profile" data-nav="profile">Clients</a>
+      <a href="#profile" data-nav="profile">Profile</a>
       <a href="#esnad" data-nav="experience">Experience</a>
       <a href="#skills" data-nav="skills">Skills</a>
-      <a href="#live" data-nav="live">Live feeds</a>
+      <a href="#live" data-nav="live">Live data</a>
       <a href="#education" data-nav="education">Education</a>
       <a href="#contact" data-nav="contact">Contact</a>
     </nav>
@@ -48,51 +48,46 @@
       <div id="map" class="map"></div>
 
       <div class="map-loading" id="mapLoading">
-        <div class="loadbar" aria-hidden="true"><i></i></div>
-        <p class="mono">Loading scene</p>
+        <div class="radar" aria-hidden="true"></div>
+        <p>Loading 3D scene<span class="mono" id="loadingText"> · requesting tiles</span></p>
       </div>
 
       <div class="map-fallback" id="mapFallback" hidden>
-        <p class="mono">Map unavailable</p>
-        <p>The 3D scene needs WebGL and a connection to Esri's map services. Everything else on the page works without it.</p>
+        <p class="mono">MAP UNAVAILABLE</p>
+        <p>The 3D scene needs WebGL and a connection to Esri's map services. The resume still works; scroll on.</p>
       </div>
 
-      <div class="titleblock" id="locChip" aria-live="polite">
-        <span class="tb-no mono" id="locNo">00</span>
-        <span class="tb-text"><strong id="locName">Arabian Peninsula</strong><span class="mono" id="locCoord">23.8859° N · 45.0792° E</span></span>
+      <div class="chip" id="locChip" aria-live="polite">
+        <span class="pulse" aria-hidden="true"></span>
+        <span class="chip-text"><strong id="locName">Arabian Peninsula</strong><span class="mono" id="locCoord">23.8859° N · 45.0792° E</span></span>
       </div>
 
       <details class="panel" id="layerPanel">
         <summary><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 1.5 5 8 8.5 14.5 5zM1.5 8 8 11.5 14.5 8M1.5 11 8 14.5 14.5 11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Layers</summary>
         <div class="panel-body">
-          <p class="panel-label">Basemap</p>
+          <p class="panel-label mono">BASEMAP</p>
           <div class="seg" role="radiogroup" aria-label="Basemap">
             <button type="button" role="radio" aria-checked="true" data-basemap="imagery">Imagery</button>
             <button type="button" role="radio" aria-checked="false" data-basemap="topo">Topo</button>
             <button type="button" role="radio" aria-checked="false" data-basemap="dark">Dark</button>
           </div>
-          <p class="panel-label">Layers</p>
+          <p class="panel-label mono">OPERATIONAL LAYERS</p>
           <label class="toggle"><input type="checkbox" data-layer="clients"><span class="sw sw-point"></span>Client sites</label>
-          <label class="toggle"><input type="checkbox" data-layer="licenses"><span class="sw sw-poly"></span>License volumes (demo)</label>
-          <label class="toggle"><input type="checkbox" data-layer="coverage"><span class="sw sw-cov"></span>CLS coverage</label>
+          <label class="toggle"><input type="checkbox" data-layer="licenses"><span class="sw sw-poly"></span>License demo</label>
+          <label class="toggle"><input type="checkbox" data-layer="coverage"><span class="sw sw-cov"></span>CLS coverage · KSA</label>
           <label class="toggle"><input type="checkbox" data-layer="career"><span class="sw sw-line"></span>Career path</label>
-          <label class="toggle"><input type="checkbox" data-layer="buildings"><span class="sw sw-bldg"></span>3D buildings (OSM)</label>
-          <label class="toggle"><input type="checkbox" data-layer="quakes"><span class="sw sw-quake"></span>Earthquakes (USGS)</label>
-          <label class="toggle"><input type="checkbox" data-layer="iss"><span class="sw sw-iss"></span>ISS position</label>
-          <label class="toggle"><input type="checkbox" data-layer="graticule"><span class="sw sw-grat"></span>Graticule 15°</label>
-          <p class="panel-label">Sun <span id="sunLabel">fixed light</span></p>
-          <input class="sun" id="sunSlider" type="range" min="5" max="19" step="0.25" value="12" aria-label="Time of day for sun position and shadows">
+          <label class="toggle"><input type="checkbox" data-layer="quakes"><span class="sw sw-quake"></span>Earthquakes · USGS live</label>
+          <label class="toggle"><input type="checkbox" data-layer="iss"><span class="sw sw-iss"></span>ISS · live position</label>
         </div>
       </details>
 
-      <div class="statusbar mono" aria-hidden="true">
-        <span><i id="hudLat">-</i> <i id="hudLon">-</i></span>
-        <span><b>Elev</b> <i id="hudElev">-</i></span>
-        <span><b>Scale</b> <i id="hudScale">-</i></span>
-        <span class="sb-x"><b>Hdg</b> <i id="hudHdg">-</i></span>
-        <span class="sb-x"><b>Tilt</b> <i id="hudTilt">-</i></span>
-        <span class="sb-x"><b>Eye</b> <i id="hudAlt">-</i></span>
-        <span class="sb-x sb-end">WGS 84</span>
+      <div class="hud mono" aria-hidden="true">
+        <span><b>LAT</b> <i id="hudLat">-</i></span>
+        <span><b>LON</b> <i id="hudLon">-</i></span>
+        <span><b>ALT</b> <i id="hudAlt">-</i></span>
+        <span class="hud-x"><b>HDG</b> <i id="hudHdg">-</i></span>
+        <span class="hud-x"><b>TILT</b> <i id="hudTilt">-</i></span>
+        <span class="hud-x"><b>SR</b> <i>WGS84</i></span>
       </div>
     </aside>
 
@@ -100,29 +95,35 @@
     <main class="story" id="story">
 
       <section class="chapter chapter-intro" id="intro" data-chapter="intro">
-        <p class="eyebrow">Senior GIS Developer</p>
+        <div class="meta mono"><span class="lyr">LYR 00</span><span>INTRO</span><span>24.7136° N · 46.6753° E</span></div>
+        <p class="eyebrow">Senior GIS Developer · Based in Riyadh, Saudi Arabia</p>
         <h1>Irfan Ali</h1>
-        <p class="lede">I design, build, and run enterprise Esri GIS for Saudi government and infrastructure clients: web GIS portals on the ArcGIS Maps SDK for JavaScript, spatial automation, enterprise geodatabases, and ArcGIS Enterprise from service publishing through high availability and disaster recovery.</p>
-        <dl class="facts">
-          <div><dt>Current</dt><dd>Senior GIS Developer, ESNAD (Saudi Mining Services Company)</dd></div>
-          <div><dt>Based in</dt><dd>Riyadh, Saudi Arabia. Open to Jeddah.</dd></div>
-          <div><dt>Experience</dt><dd>8 years in software engineering, in GIS since 2023</dd></div>
-          <div><dt>Residency</dt><dd>Transferable Iqama</dd></div>
-        </dl>
+        <p class="lede">I build enterprise Esri GIS for Saudi government and infrastructure: custom web GIS portals, spatial automation, enterprise geodatabases, and ArcGIS Enterprise from service publishing to high availability and disaster recovery.</p>
+        <ul class="tags">
+          <li class="tag tag-accent">Riyadh (current) · Jeddah</li>
+          <li class="tag">8 years in software engineering</li>
+          <li class="tag">ArcGIS Enterprise · Maps SDK for JS</li>
+        </ul>
         <div class="ctas">
           <a class="btn" href="assets/docs/Irfan-Ali-Senior-GIS-Developer.pdf" download>Download CV (PDF)</a>
-          <a class="btn btn-ghost" href="#contact">Contact</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
-        <p class="scroll-hint">The map follows the page as you scroll.</p>
+        <dl class="stats">
+          <div><dt>Gov &amp; infra clients</dt><dd>8</dd></div>
+          <div><dt>Caller location lookup</dt><dd>0.44<small>ms</small></dd></div>
+          <div><dt>ArcGIS Enterprise</dt><dd>HA<small>/DR</small></dd></div>
+        </dl>
+        <p class="scroll-hint mono"><span aria-hidden="true">↓</span> Scroll and the map flies to each project</p>
       </section>
 
       <section class="chapter" id="profile" data-chapter="profile" data-nav="profile">
-        <div class="meta mono"><span class="no">01</span><span>Clients</span><span class="coord">23.8859° N · 45.0792° E</span></div>
-        <h2>Government and infrastructure clients</h2>
-        <p>I work directly with client stakeholders, from requirement sessions through delivery and production support. Select a row to locate the client on the map.</p>
+        <div class="meta mono"><span class="lyr">LYR 01</span><span>PROFILE</span><span>23.8859° N · 45.0792° E</span></div>
+        <h2>Enterprise GIS for the Kingdom's public sector</h2>
+        <p>Senior GIS Developer with 8 years in software engineering. I work directly with stakeholders from requirements through delivery and production support, and I use AI tools every day to design, code, test, and document faster.</p>
+        <p class="table-caption mono">ATTRIBUTE TABLE · clients.geojson · 8 features <span class="hint">· select a row to locate it</span></p>
         <div class="table-wrap">
           <table class="attr" id="clientTable">
-            <thead><tr><th>#</th><th>Client</th><th>Work</th><th>City</th></tr></thead>
+            <thead><tr><th>OID</th><th>CLIENT</th><th>WORK</th><th>CITY</th></tr></thead>
             <tbody>
               <tr tabindex="0" data-oid="1"><td>1</td><td>ESNAD</td><td>Mining license GIS</td><td>Riyadh</td></tr>
               <tr tabindex="0" data-oid="2"><td>2</td><td>Ministry of Industry &amp; Mineral Resources</td><td>Digital mining licenses</td><td>Riyadh</td></tr>
@@ -135,236 +136,208 @@
             </tbody>
           </table>
         </div>
-        <p class="small-note">Locations are approximate, at city level.</p>
       </section>
 
       <section class="chapter" id="esnad" data-chapter="esnad" data-nav="experience">
-        <div class="meta mono"><span class="no">02</span><span>Experience</span><span class="coord">23.5050° N · 41.2300° E</span></div>
-        <p class="role"><strong>Senior GIS Developer</strong>, ESNAD (Saudi Mining Services Company)<span class="when mono">Jul 2025 – Present · Riyadh</span></p>
+        <div class="meta mono"><span class="lyr">LYR 02</span><span>EXPERIENCE</span><span>23.5050° N · 41.2300° E</span></div>
+        <p class="role"><strong>Senior GIS Developer</strong> · ESNAD, Saudi Mining Services Company<span class="when mono">Jul 2025 – Present · Riyadh</span></p>
         <h2>Digital mining licenses for the Ministry of Industry and Mineral Resources</h2>
 
         <div class="demo" id="deductionDemo">
           <div class="demo-head">
-            <p>Spatial auto-deduction, run in your browser</p>
+            <p class="mono">GEOPROCESSING · spatial auto-deduction</p>
             <button type="button" class="btn btn-sm btn-ghost" id="replayDeduction">Run again</button>
           </div>
           <ol class="steps" id="deductionSteps">
-            <li data-step="1"><span class="mono">1</span>Applied boundary received</li>
-            <li data-step="2"><span class="mono">2</span>Overlap check against existing licenses<em id="overlapOut"></em></li>
-            <li data-step="3"><span class="mono">3</span>Geometry adjusted to business rules<em id="resultOut"></em></li>
+            <li data-step="1"><span class="mono">01</span>Applied boundary received</li>
+            <li data-step="2"><span class="mono">02</span>Overlap check against existing licenses<em id="overlapOut"></em></li>
+            <li data-step="3"><span class="mono">03</span>Geometry adjusted to business rules<em id="resultOut"></em></li>
           </ol>
-          <p class="demo-note">The polygons are synthetic, not real licenses. The overlap and the adjusted shape are computed with the ArcGIS geometry engine (intersect, difference, geodesic area) and extruded on the terrain. The production engine does this server-side behind a REST API.</p>
+          <p class="demo-note">Synthetic geometry for illustration. The overlap and the adjusted shape are computed live in your browser by the ArcGIS geometry engine, the same kind of operation the production REST API runs.</p>
         </div>
 
         <ul class="bullets">
           <li>Designed the GIS solution and data-flow architecture for digital mining license issuance: license boundaries, mining sites, and approval workflows.</li>
-          <li>Built a custom GIS portal with the <b>ArcGIS Maps SDK for JavaScript</b> (MapViews, layers, geometry creation and editing), plus apps in <b>Experience Builder</b> and <b>ArcGIS Dashboards</b>.</li>
-          <li>Built the <b>spatial auto deduction engine</b> as a REST API that adjusts license geometries against business rules and existing boundaries.</li>
-          <li>Integrated the platform with other government systems over REST for licensing approvals, and exposed spatial endpoints for other departments to consume.</li>
-          <li>Built print templates and geoprocessing automation with <b>Python and ArcPy</b>, and a search that turns plain-language questions into SQL over GIS data.</li>
-          <li>Use Claude Code, Codex, and GitHub Copilot for coding, refactoring, and reviews, with <b>MCP connectors</b> into internal tools and data.</li>
+          <li>Built a custom GIS portal with the <b>ArcGIS Maps SDK for JavaScript</b> (MapViews, layers, geometry creation and editing) plus apps in <b>Experience Builder</b> and <b>ArcGIS Dashboards</b>.</li>
+          <li>Built a <b>spatial auto deduction engine</b> as a REST API that adjusts license geometries against business rules and existing boundaries.</li>
+          <li>Administer <b>ArcGIS Enterprise</b>: published and secured map and feature services, Portal users, roles and permissions, SSL, and Active Directory / SSO.</li>
+          <li>Designed the on-premises <b>HA and DR</b> setup: multi-machine ArcGIS Server site, Portal primary/standby, web adaptor behind a load balancer, geodatabase replication, and failover testing.</li>
+          <li>Integrated with other government systems through REST APIs for licensing approvals and exposed spatial endpoints for other departments.</li>
+          <li>Built print templates and geoprocessing automation with <b>Python and ArcPy</b>, plus an AI search that turns plain-language questions into SQL over GIS data.</li>
+          <li>Use Claude Code, Codex, and GitHub Copilot daily, and connect AI assistants to internal tools and data through <b>MCP connectors</b>.</li>
         </ul>
-      </section>
-
-      <section class="chapter" id="enterprise" data-chapter="enterprise" data-nav="experience">
-        <div class="meta mono"><span class="no">03</span><span>Experience</span><span class="coord">24.7650° N · 46.6400° E</span></div>
-        <p class="role"><strong>Senior GIS Developer</strong>, ESNAD<span class="when mono">Jul 2025 – Present · Riyadh</span></p>
-        <h2>ArcGIS Enterprise: high availability and disaster recovery</h2>
-        <figure class="topo-fig">
-          <svg class="topo" viewBox="-177 -10 520 391" role="img" aria-labelledby="topoTitle">
-          <title id="topoTitle">Isometric diagram of the ArcGIS Enterprise high availability and disaster recovery topology</title>
-          <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 9 5 1 9" fill="none" stroke="context-stroke" stroke-width="1.6"/></marker></defs>
-          <g class="plate"><polygon class="f-l" points="-166.6,96.2 166.6,288.6 166.6,295.1 -166.6,102.7"/><polygon class="f-r" points="333.2,192.4 166.6,288.6 166.6,295.1 333.2,198.9"/><polygon class="f-t" points="0.0,0.0 333.2,192.4 166.6,288.6 -166.6,96.2"/></g>
-          <g class="plate"><polygon class="f-l" points="-108.1,280.8 36.0,364.0 36.0,370.5 -108.1,287.3"/><polygon class="f-r" points="121.6,314.6 36.0,364.0 36.0,370.5 121.6,321.1"/><polygon class="f-t" points="-22.5,231.4 121.6,314.6 36.0,364.0 -108.1,280.8"/></g>
-          <text class="plate-label" transform="matrix(0.866,0.5,-0.866,0.5,-153.1,97.5)">PRIMARY SITE</text>
-          <text class="plate-label" transform="matrix(0.866,0.5,-0.866,0.5,-94.6,282.1)">DR SITE</text>
-          <polyline class="link" points="-83.3,48.1 -63.0,59.8"/>
-          <polyline class="link" points="-36.0,75.4 -4.5,93.6"/>
-          <polyline class="link" points="22.5,109.2 41.7,120.3 88.9,93.0 108.1,104.0"/>
-          <polyline class="link link-standby" points="41.7,120.3 -5.6,147.5 13.5,158.6"/>
-          <polyline class="link" points="139.6,122.2 184.6,148.2"/>
-          <polyline class="link link-standby" points="45.0,176.8 90.1,202.8"/>
-          <polyline class="link" points="162.1,135.2 67.5,189.8"/>
-          <polyline class="link" points="216.2,166.4 236.4,178.1 189.1,205.4 200.4,211.9"/>
-          <polyline class="link" points="121.6,221.0 141.9,232.7 189.1,205.4"/>
-          <g class="node"><polygon class="f-l" points="92.3,84.5 123.8,102.7 123.8,131.3 92.3,113.1"/><polygon class="f-r" points="155.4,84.5 123.8,102.7 123.8,131.3 155.4,113.1"/><polygon class="f-t" points="123.8,66.3 155.4,84.5 123.8,102.7 92.3,84.5"/></g>
-          <g class="node"><polygon class="f-l" points="168.9,128.7 200.4,146.9 200.4,175.5 168.9,157.3"/><polygon class="f-r" points="231.9,128.7 200.4,146.9 200.4,175.5 231.9,157.3"/><polygon class="f-t" points="200.4,110.5 231.9,128.7 200.4,146.9 168.9,128.7"/></g>
-          <g class="node node-edge"><polygon class="f-l" points="-78.8,57.2 -51.8,72.8 -51.8,84.5 -78.8,68.9"/><polygon class="f-r" points="-20.3,54.6 -51.8,72.8 -51.8,84.5 -20.3,66.3"/><polygon class="f-t" points="-47.3,39.0 -20.3,54.6 -51.8,72.8 -78.8,57.2"/></g>
-          <g class="node node-edge"><polygon class="f-l" points="-20.3,84.5 6.8,100.1 6.8,118.3 -20.3,102.7"/><polygon class="f-r" points="38.3,81.9 6.8,100.1 6.8,118.3 38.3,100.1"/><polygon class="f-t" points="11.3,66.3 38.3,81.9 6.8,100.1 -20.3,84.5"/></g>
-          <g class="node node-db"><path class="f-l" d="M194.5,196.3 V222.3 A23.9,13.8 0 0 0 242.3,222.3 V196.3 Z"/><path class="band" d="M194.5,209.3 A23.9,13.8 0 0 0 242.3,209.3"/><ellipse class="f-t" cx="218.4" cy="196.3" rx="23.9" ry="13.8"/></g>
-          <g class="node node-standby"><polygon class="f-l" points="-2.3,139.1 29.3,157.3 29.3,185.9 -2.3,167.7"/><polygon class="f-r" points="60.8,139.1 29.3,157.3 29.3,185.9 60.8,167.7"/><polygon class="f-t" points="29.3,120.9 60.8,139.1 29.3,157.3 -2.3,139.1"/></g>
-          <g class="node"><polygon class="f-l" points="74.3,183.3 105.8,201.5 105.8,230.1 74.3,211.9"/><polygon class="f-r" points="137.3,183.3 105.8,201.5 105.8,230.1 137.3,211.9"/><polygon class="f-t" points="105.8,165.1 137.3,183.3 105.8,201.5 74.3,183.3"/></g>
-          <line class="repl" x1="195.9" y1="235.3" x2="68.7" y2="308.8" marker-end="url(#arr)"/>
-          <g class="node node-standby"><polygon class="f-l" points="-49.5,254.8 -18.0,273.0 -18.0,301.6 -49.5,283.4"/><polygon class="f-r" points="13.5,254.8 -18.0,273.0 -18.0,301.6 13.5,283.4"/><polygon class="f-t" points="-18.0,236.6 13.5,254.8 -18.0,273.0 -49.5,254.8"/></g>
-          <g class="node node-db node-standby"><path class="f-l" d="M23.4,295.1 V321.1 A23.9,13.8 0 0 0 71.2,321.1 V295.1 Z"/><path class="band" d="M23.4,308.1 A23.9,13.8 0 0 0 71.2,308.1"/><ellipse class="f-t" cx="47.3" cy="295.1" rx="23.9" ry="13.8"/></g>
-          <g class="badge"><circle cx="-49.5" cy="55.9" r="8.5"/><text x="-49.5" y="59.3">1</text></g>
-          <g class="badge"><circle cx="9.0" cy="83.2" r="8.5"/><text x="9.0" y="86.6">2</text></g>
-          <g class="badge"><circle cx="123.8" cy="84.5" r="8.5"/><text x="123.8" y="87.9">3</text></g>
-          <g class="badge"><circle cx="29.3" cy="139.1" r="8.5"/><text x="29.3" y="142.5">4</text></g>
-          <g class="badge"><circle cx="200.4" cy="128.7" r="8.5"/><text x="200.4" y="132.1">5</text></g>
-          <g class="badge"><circle cx="105.8" cy="183.3" r="8.5"/><text x="105.8" y="186.7">5</text></g>
-          <g class="badge"><circle cx="218.4" cy="196.3" r="8.5"/><text x="218.4" y="199.7">6</text></g>
-          <g class="badge"><circle cx="123.8" cy="276.9" r="8.5"/><text x="123.8" y="280.3">7</text></g>
-          <g class="badge"><circle cx="-18.0" cy="254.8" r="8.5"/><text x="-18.0" y="258.2">8</text></g>
-          <g class="badge"><circle cx="47.3" cy="295.1" r="8.5"/><text x="47.3" y="298.5">8</text></g>
-          </svg>
-          <ol class="topo-key">
-            <li>Load balancer</li>
-            <li>Web Adaptor</li>
-            <li>Portal for ArcGIS, primary</li>
-            <li>Portal for ArcGIS, standby</li>
-            <li>ArcGIS Server site, multi-machine</li>
-            <li>Enterprise geodatabase</li>
-            <li>Geodatabase replication</li>
-            <li>DR site, failover tested</li>
-          </ol>
-        </figure>
-        <ul class="bullets">
-          <li>Designed the on-premises <b>HA and DR</b> setup: multi-machine ArcGIS Server site, Portal primary and standby, Web Adaptor behind a load balancer, geodatabase replication, and failover testing.</li>
-          <li>Administer <b>ArcGIS Enterprise</b>: publish and secure map and feature services, manage Portal users, roles, and permissions, and configure SSL and Active Directory / SSO.</li>
-          <li>Write solution designs and technical specs, coordinate with infrastructure, data, and security teams, and present solutions to client stakeholders.</li>
-        </ul>
+        <ul class="tags"><li class="tag">ArcGIS Enterprise</li><li class="tag">Maps SDK for JS</li><li class="tag">Experience Builder</li><li class="tag">Dashboards</li><li class="tag">ArcPy</li><li class="tag">REST API</li><li class="tag">HA / DR</li></ul>
       </section>
 
       <section class="chapter" id="kidana" data-chapter="kidana" data-nav="experience">
-        <div class="meta mono"><span class="no">04</span><span>Experience</span><span class="coord">21.4133° N · 39.8933° E</span></div>
-        <p class="role"><strong>Senior GIS Developer</strong>, Geotech Overseas<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
+        <div class="meta mono"><span class="lyr">LYR 03</span><span>EXPERIENCE</span><span>21.4133° N · 39.8933° E</span></div>
+        <p class="role"><strong>Senior GIS Developer</strong> · Geotech Overseas<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
         <h2>Holy-site land allocation for the Ministry of Hajj</h2>
-        <p><b>KIDANA Permits</b> is the GIS-based land allocation system for the holy sites. Plots are assigned to companies through approval workflows. The map shows Mina, east of Makkah.</p>
+        <p>The map is now over Mina, the valley of tents outside Makkah, in 3D terrain. <b>KIDANA Permits</b> is the GIS-based land allocation system where holy-site plots are assigned to companies through approval workflows.</p>
         <ul class="bullets">
           <li>Delivered KIDANA Permits for the Ministry of Hajj, from plot geometry to the approval workflow.</li>
           <li>Published and secured services on <b>ArcGIS Server and Portal</b>, and set up HA and DR for on-premises deployments.</li>
           <li>Collected field data with <b>Survey123</b>.</li>
-          <li>Led requirement sessions with clients, wrote the technical documentation, and coordinated vendors and internal teams through delivery.</li>
+          <li>Led requirement sessions with clients, wrote technical documentation, and coordinated vendors and internal teams through delivery.</li>
         </ul>
       </section>
 
       <section class="chapter" id="riyadh" data-chapter="riyadh" data-nav="experience">
-        <div class="meta mono"><span class="no">05</span><span>Experience</span><span class="coord">24.9576° N · 46.6988° E</span></div>
-        <p class="role"><strong>Senior GIS Developer</strong>, Geotech Overseas<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
-        <h2>Riyadh Airports, national agencies, and a Land Information System</h2>
+        <div class="meta mono"><span class="lyr">LYR 04</span><span>EXPERIENCE</span><span>24.7136° N · 46.6753° E</span></div>
+        <p class="role"><strong>Senior GIS Developer</strong> · Geotech Overseas<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
+        <h2>Airports, national services, and land information</h2>
+        <p>Riyadh is home base and where most of my government clients sit.</p>
         <ul class="bullets">
-          <li>Built GIS maps and layers for <b>Riyadh Airports</b>. The map shows King Khalid International Airport.</li>
-          <li>Delivered GIS work for <b>SDAIA</b> and the <b>Ministry of Culture</b>.</li>
-          <li>Architected a multi-tenant <b>Land Information System</b> for government clients: Esri web mapping, parcel and valuation tools, enterprise geodatabase design, and ArcGIS Dashboards.</li>
+          <li>Built GIS maps and layers for <b>Riyadh Airports</b>, and delivered GIS work for <b>SDAIA</b> and the <b>Ministry of Culture</b>.</li>
+          <li>Architected a multi-tenant <b>Land Information System</b> with Esri web mapping, parcel and valuation tools, enterprise geodatabase design, and ArcGIS Dashboards for government clients.</li>
         </ul>
       </section>
 
       <section class="chapter" id="cls" data-chapter="cls" data-nav="experience">
-        <div class="meta mono"><span class="no">06</span><span>Experience</span><span class="coord">Kingdom-wide</span></div>
-        <p class="role"><strong>Senior GIS Developer</strong>, Geotech Overseas, for the National Information Center<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
-        <h2>Caller Location Service for the National Information Center</h2>
-        <p>The <b>Caller Location Service</b> answers location lookups for the whole Kingdom, from Riyadh and Jeddah to Dammam, Tabuk, and Jazan. I re-engineered the lookup path with <b>RabbitMQ</b> and <b>Memcached</b>.</p>
+        <div class="meta mono"><span class="lyr">LYR 05</span><span>EXPERIENCE</span><span>KINGDOM-WIDE</span></div>
+        <p class="role"><strong>Senior GIS Developer</strong> · Geotech Overseas for the National Information Center<span class="when mono">Oct 2023 – Jun 2025 · Riyadh</span></p>
+        <h2>Caller Location Service, used across the whole Kingdom</h2>
+        <p>The <b>Caller Location Service (CLS)</b> I built for the National Information Center isn't tied to one city. It serves location lookups for the entire Kingdom of Saudi Arabia, from Riyadh and Jeddah to Dammam, Tabuk, and Jazan. The shaded area on the map is its coverage.</p>
         <div class="speed">
-          <p class="speed-label">Lookup time</p>
-          <div class="speed-row"><span>Before</span><span class="bar bar-before"><i></i></span><b class="mono">4,000 ms</b></div>
-          <div class="speed-row"><span>After</span><span class="bar bar-after"><i></i></span><b class="mono">0.44 ms</b></div>
-          <p class="speed-note">About 9,000 times faster.</p>
+          <p class="mono speed-label">NIC CALLER LOCATION SERVICE · lookup time</p>
+          <div class="speed-row"><span class="mono">Before</span><span class="bar bar-before"><i></i></span><b>4,000 ms</b></div>
+          <div class="speed-row"><span class="mono">After</span><span class="bar bar-after"><i></i></span><b>0.44 ms</b></div>
+          <p class="speed-note">About 9,000× faster, using RabbitMQ and Memcached.</p>
         </div>
-        <p class="small-note">On the map: the coverage area and the main cities served. The flow lines are illustrative.</p>
+        <ul class="bullets">
+          <li>Re-engineered the lookup path with <b>RabbitMQ</b> and <b>Memcached</b>, taking response times from 4 seconds to 0.44 ms.</li>
+          <li>Built to serve requests from every region of the Kingdom, not a single city.</li>
+        </ul>
       </section>
 
       <section class="chapter" id="intellyct" data-chapter="intellyct" data-nav="experience">
-        <div class="meta mono"><span class="no">07</span><span>Experience</span><span class="coord">43.8361° N · 79.5083° W</span></div>
-        <p class="role"><strong>Senior Software Engineer</strong> (remote), Intellyct<span class="when mono">Mar 2023 – Sep 2023 · Vaughan, Ontario, Canada</span></p>
-        <h2>Microservices and real-time messaging</h2>
+        <div class="meta mono"><span class="lyr">LYR 06</span><span>EXPERIENCE</span><span>43.8361° N · 79.5083° W</span></div>
+        <p class="role"><strong>Senior Software Engineer (Remote)</strong> · Intellyct<span class="when mono">Mar 2023 – Sep 2023 · Vaughan, Ontario, Canada</span></p>
+        <h2>Microservices and real-time messaging for a Canadian product team</h2>
         <ul class="bullets">
-          <li>Designed and implemented RESTful APIs with <b>.NET Core</b> on a <b>microservices</b> architecture, breaking down monolithic applications.</li>
-          <li>Integrated <b>Redis</b>, <b>Azure Service Bus</b>, <b>Kafka</b>, and <b>Azure Cosmos DB</b> for performance, real-time messaging, and high availability in distributed environments.</li>
-          <li>Added health checks and monitoring to catch issues early and keep services available.</li>
-          <li>Containerized the applications with <b>Docker</b> for scaling and deployment.</li>
+          <li>Designed and implemented RESTful APIs with <b>.NET Core</b> and a <b>microservices</b> architecture, breaking down monolithic apps.</li>
+          <li>Integrated <b>Redis</b>, <b>Azure Service Bus</b>, <b>Kafka</b>, and <b>Azure Cosmos DB</b> for better performance, real-time messaging, and high availability in distributed environments.</li>
+          <li>Implemented health checks and monitoring to catch issues early and keep services available.</li>
+          <li>Containerized apps with <b>Docker</b> for efficient scaling and deployment.</li>
         </ul>
+        <ul class="tags"><li class="tag">.NET Core</li><li class="tag">Microservices</li><li class="tag">Kafka</li><li class="tag">Azure Service Bus</li><li class="tag">Cosmos DB</li><li class="tag">Redis</li><li class="tag">Docker</li></ul>
       </section>
 
       <section class="chapter" id="nasfia" data-chapter="nasfia" data-nav="experience">
-        <div class="meta mono"><span class="no">08</span><span>Experience</span><span class="coord">33.8688° S · 151.2093° E</span></div>
-        <p class="role"><strong>Software Engineer, then Senior Software Engineer</strong>, Nasfia (Pvt) Ltd.<span class="when mono">Sep 2021 – Feb 2023 · Sydney, Australia</span></p>
+        <div class="meta mono"><span class="lyr">LYR 07</span><span>EXPERIENCE</span><span>33.8688° S · 151.2093° E</span></div>
+        <p class="role"><strong>Software Engineer → Senior Software Engineer</strong> · Nasfia (Pvt) Ltd.<span class="when mono">Sep 2021 – Feb 2023 · Sydney, Australia</span></p>
         <h2>Cloud platforms and CRM products on Azure</h2>
         <ul class="bullets">
-          <li>Led a team that designed, built, and deployed company products on <b>Azure App Service</b> and VMs, improving scalability and reducing operating costs.</li>
-          <li>Migrated systems from Azure virtual servers to App Service, with <b>Azure Functions</b>, <b>CI/CD pipelines</b>, Blob Storage, Logic Apps, and <b>Azure SQL Managed Instance</b>.</li>
+          <li>Led a team to design, develop, and deploy company products on <b>Azure App Service</b> and VMs, improving scalability and reducing operational costs.</li>
+          <li>Migrated systems from Azure virtual servers to App Service, integrating <b>Azure Functions</b>, <b>CI/CD pipelines</b>, Blob Storage, Logic Apps, and <b>Azure SQL Managed Instance</b> for cost savings and reliability.</li>
           <li>Cut load times by <b>20%</b> through query tuning, database indexing, and code refactoring.</li>
-          <li>Designed and integrated several CRM projects with <b>ASP.NET</b>, <b>SQL Server</b>, Telerik, and JavaScript, and reduced support tickets through bug fixes.</li>
-          <li>Applied <b>TDD</b> to keep the code maintainable.</li>
+          <li>Designed and integrated multiple CRM projects with <b>ASP.NET</b>, <b>SQL Server</b>, Telerik, HTML5, CSS3, Bootstrap, and JavaScript, and reduced support tickets through targeted bug fixes.</li>
+          <li>Applied <b>TDD</b> to keep the code maintainable and focused on business value.</li>
         </ul>
+        <ul class="tags"><li class="tag">Azure App Service</li><li class="tag">Azure Functions</li><li class="tag">CI/CD</li><li class="tag">SQL Managed Instance</li><li class="tag">ASP.NET</li><li class="tag">TDD</li></ul>
       </section>
 
       <section class="chapter" id="career" data-chapter="career" data-nav="experience">
-        <div class="meta mono"><span class="no">09</span><span>Experience</span><span class="coord">24.8607° N · 67.0011° E</span></div>
-        <p class="role"><strong>Associate Software Engineer</strong>, Ficiali<span class="when mono">Jan 2018 – Aug 2021 · Karachi, Pakistan</span></p>
-        <h2>Web applications and API integration</h2>
-        <p>I spent my first five years on APIs, distributed systems, and cloud platforms before moving into GIS. The arcs start in Karachi and run to Sydney, Canada (remote), and Riyadh.</p>
+        <div class="meta mono"><span class="lyr">LYR 08</span><span>EXPERIENCE</span><span>24.8607° N · 67.0011° E</span></div>
+        <p class="role"><strong>Associate Software Engineer</strong> · Ficiali<span class="when mono">Jan 2018 – Aug 2021 · Karachi, Pakistan</span></p>
+        <h2>Where it started</h2>
+        <p>Before GIS, five years of building APIs, distributed systems, and cloud platforms. The arcs on the globe trace the route: from Karachi to Sydney, Canada, and finally Riyadh.</p>
         <ul class="bullets">
           <li>Developed and maintained features across web applications, fixing bugs and shipping enhancements.</li>
-          <li>Built and integrated <b>REST and SOAP APIs</b> end to end with the front end.</li>
+          <li>Built and integrated <b>REST and SOAP APIs</b> with end-to-end front-end integration.</li>
           <li>Wrote automated scripts and procedures for maintenance and background tasks.</li>
           <li>Reproduced and resolved client-reported issues in the staging environment.</li>
         </ul>
       </section>
 
       <section class="chapter" id="skills" data-chapter="skills" data-nav="skills">
-        <div class="meta mono"><span class="no">10</span><span>Skills</span><span class="coord">24.7114° N · 46.6744° E</span></div>
-        <h2>Skills</h2>
-        <dl class="skills">
-          <div><dt>Esri / ArcGIS</dt><dd><b>ArcGIS Enterprise</b>, <b>ArcGIS Portal</b>, <b>ArcGIS Server</b>, <b>Enterprise Geodatabase</b>, <b>ArcGIS Maps SDK for JavaScript</b>, <b>ArcGIS REST API</b>, <b>Experience Builder</b>, <b>ArcGIS Dashboards</b>, ArcGIS Pro, Survey123</dd></div>
-          <div><dt>Web GIS</dt><dd>Web maps, 2D and 3D views, feature and map services, geometry creation and editing, <b>spatial analysis</b>, coordinate reference systems, print templates, GIS reports</dd></div>
-          <div><dt>GIS administration</dt><dd>Service publishing and security, users, roles and permissions, <b>multi-machine Server sites</b>, <b>Portal HA</b>, Web Adaptor and load balancer, geodatabase replication, <b>DR and failover testing</b>, SSL, Active Directory / SSO</dd></div>
-          <div><dt>Automation</dt><dd><b>Python</b>, <b>ArcPy</b>, geoprocessing, spatial auto deduction engines</dd></div>
-          <div><dt>Databases</dt><dd><b>Microsoft SQL Server</b> (spatial SQL, T-SQL), <b>PostgreSQL</b>, database design, Redis, Elasticsearch</dd></div>
-          <div><dt>Development</dt><dd>C#, .NET Core, ASP.NET Core Web API, Angular, React, TypeScript, JavaScript, REST APIs</dd></div>
-          <div><dt>Security &amp; DevOps</dt><dd>OAuth 2.0, OIDC, JWT, RBAC / ABAC, Azure, Docker, Azure DevOps, Git, CI/CD</dd></div>
-          <div><dt>AI-assisted development</dt><dd>Claude Code, OpenAI Codex, GitHub Copilot, MCP connectors, AI-assisted code review, testing, and documentation</dd></div>
-        </dl>
+        <div class="meta mono"><span class="lyr">LYR 09</span><span>LEGEND</span><span>24.7136° N · 46.6753° E</span></div>
+        <h2>Toolkit</h2>
+        <div class="legend">
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-poly"></span>Esri / ArcGIS</p>
+            <ul class="chips"><li class="hot">ArcGIS Enterprise</li><li class="hot">ArcGIS Portal</li><li class="hot">ArcGIS Server</li><li class="hot">Enterprise Geodatabase</li><li class="hot">Maps SDK for JavaScript</li><li class="hot">ArcGIS REST API</li><li class="hot">Experience Builder</li><li class="hot">ArcGIS Dashboards</li><li>ArcGIS Pro</li><li>Survey123</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-point"></span>Web GIS</p>
+            <ul class="chips"><li>Web maps</li><li>2D / 3D MapViews</li><li>Feature &amp; map services</li><li>Geometry creation &amp; editing</li><li class="hot">Spatial analysis</li><li>Coordinate reference systems</li><li>Print templates</li><li>GIS reports</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-line"></span>GIS administration</p>
+            <ul class="chips"><li>Service publishing &amp; security</li><li>Users, roles, permissions</li><li class="hot">Multi-machine Server sites</li><li class="hot">Portal HA</li><li>Web adaptor &amp; load balancer</li><li>Geodatabase replication</li><li class="hot">DR &amp; failover testing</li><li>SSL</li><li>Active Directory / SSO</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-raster"></span>Automation</p>
+            <ul class="chips"><li class="hot">Python</li><li class="hot">ArcPy</li><li>Geoprocessing</li><li>Spatial auto deduction engines</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-db"></span>Databases</p>
+            <ul class="chips"><li class="hot">SQL Server · spatial SQL, T-SQL</li><li class="hot">PostgreSQL</li><li>Database design</li><li>Redis</li><li>Elasticsearch</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-dev"></span>Development</p>
+            <ul class="chips"><li>C#</li><li>.NET Core</li><li>ASP.NET Core Web API</li><li>Angular</li><li>React</li><li>TypeScript</li><li>JavaScript</li><li>REST APIs</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-ai"></span>AI tools</p>
+            <ul class="chips"><li class="hot">Claude &amp; Claude Code</li><li class="hot">OpenAI Codex</li><li>ChatGPT</li><li>GitHub Copilot</li><li class="hot">MCP connectors</li><li>Prompt engineering</li><li>AI-assisted review, testing &amp; docs</li></ul>
+          </div>
+          <div class="legend-item">
+            <p class="legend-head"><span class="sw sw-sec"></span>Security &amp; DevOps</p>
+            <ul class="chips"><li>OAuth 2.0</li><li>OIDC</li><li>JWT</li><li>RBAC / ABAC</li><li>Azure</li><li>Docker</li><li>Azure DevOps</li><li>Git</li><li>CI/CD</li></ul>
+          </div>
+        </div>
       </section>
 
       <section class="chapter" id="live" data-chapter="live" data-nav="live">
-        <div class="meta mono"><span class="no">11</span><span>Live feeds</span><span class="coord">Global</span></div>
-        <h2>Live feeds on the globe</h2>
-        <p>Two public REST feeds, requested by your browser and drawn in 3D. Earthquakes from the past week stand as columns scaled by magnitude. The ISS sits at its real altitude with a line down to its ground position. The day and night sides follow the sun's position right now. I use the same pattern to bring external services into ArcGIS.</p>
+        <div class="meta mono"><span class="lyr">LYR 10</span><span>LIVE FEEDS</span><span>GLOBAL</span></div>
+        <h2>Live layers from public feeds</h2>
+        <p>This part of the map is not pre-baked. Your browser is pulling it right now from public REST endpoints and drawing it on the 3D globe, the same pattern I use to bring government services into ArcGIS.</p>
         <div class="live-grid">
           <div class="live-card">
-            <p class="live-label"><span class="dot dot-quake"></span>USGS, M2.5+ earthquakes, past 7 days</p>
+            <p class="mono live-label"><span class="dot dot-quake"></span>USGS · M2.5+ earthquakes · past 7 days</p>
             <p class="live-big" id="quakeCount">-</p>
             <p class="live-sub" id="quakeMax">Fetching feed…</p>
           </div>
           <div class="live-card">
-            <p class="live-label"><span class="dot dot-iss"></span>International Space Station, now</p>
+            <p class="mono live-label"><span class="dot dot-iss"></span>International Space Station · now</p>
             <p class="live-big" id="issPos">-</p>
             <p class="live-sub" id="issMeta">Fetching position…</p>
           </div>
         </div>
-        <p class="small-note">Sources: earthquake.usgs.gov GeoJSON feed and api.wheretheiss.at, refreshed while this section is on screen.</p>
+        <p class="small-note mono">Sources: earthquake.usgs.gov GeoJSON feed · api.wheretheiss.at · refreshed while this section is on screen.</p>
       </section>
 
       <section class="chapter" id="education" data-chapter="education" data-nav="education">
-        <div class="meta mono"><span class="no">12</span><span>Education</span><span class="coord">24.8569° N · 67.2647° E</span></div>
-        <h2>Education and certifications</h2>
-        <p class="role"><strong>BS Computer Science</strong>, FAST-NUCES (National University of Computer and Emerging Sciences)<span class="when mono">Aug 2016 – Sep 2020 · Karachi</span></p>
+        <div class="meta mono"><span class="lyr">LYR 11</span><span>EDUCATION</span><span>24.8569° N · 67.2647° E</span></div>
+        <h2>Education &amp; certifications</h2>
+        <p class="role"><strong>BS Computer Science</strong> · FAST-NUCES, National University of Computer and Emerging Sciences<span class="when mono">Aug 2016 – Sep 2020 · Karachi</span></p>
         <ul class="certs">
-          <li><span class="mono">Jun 2026</span>ArcGIS Python Scripting, LinkedIn Learning</li>
-          <li><span class="mono">Mar 2026</span>System Design: Designing Scalable Systems, LinkedIn Learning</li>
-          <li><span class="mono">2025</span>Advanced Software Architecture, LinkedIn Learning</li>
+          <li><span class="mono">JUN 2026</span>ArcGIS Python Scripting · LinkedIn Learning</li>
+          <li><span class="mono">MAR 2026</span>System Design: Designing Scalable Systems · LinkedIn Learning</li>
+          <li><span class="mono">2025</span>Advanced Software Architecture · LinkedIn Learning</li>
         </ul>
-        <p class="soft">With clients I run requirement sessions and presentations, manage stakeholders, own the technical side, and explain the work to non-technical audiences.</p>
+        <p class="soft"><b>Also good at:</b> client-facing presentations, stakeholder management, technical ownership, and explaining technical work to non-technical audiences.</p>
       </section>
 
       <section class="chapter chapter-contact" id="contact" data-chapter="contact" data-nav="contact">
-        <div class="meta mono"><span class="no">13</span><span>Contact</span><span class="coord">24.7136° N · 46.6753° E</span></div>
-        <h2>Contact</h2>
-        <p>Based in Riyadh on a transferable Iqama. Open to senior GIS developer and GIS architect roles in Riyadh and Jeddah.</p>
+        <div class="meta mono"><span class="lyr">LYR 12</span><span>CONTACT</span><span>24.7136° N · 46.6753° E</span></div>
+        <h2>Let's map something</h2>
+        <p>Currently based in Riyadh, and open to senior GIS developer and GIS architect roles in Riyadh and Jeddah.</p>
         <ul class="contact">
-          <li><span>Email</span><a href="mailto:gis.irfanali@gmail.com">gis.irfanali@gmail.com</a></li>
-          <li><span>Phone</span><a href="tel:+966532058710">+966 53 205 8710</a></li>
-          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/IrfanAlee" target="_blank" rel="noopener">linkedin.com/in/IrfanAlee</a></li>
-          <li><span>GitHub</span><a href="https://github.com/ErfaanAli" target="_blank" rel="noopener">github.com/ErfaanAli</a></li>
+          <li><span class="mono">LOCATION</span><span>Riyadh (current) · Jeddah</span></li>
+          <li><span class="mono">EMAIL</span><a href="mailto:gis.irfanali@gmail.com">gis.irfanali@gmail.com</a></li>
+          <li><span class="mono">PHONE</span><a href="tel:+966532058710">+966 53 205 8710</a></li>
+          <li><span class="mono">LINKEDIN</span><a href="https://www.linkedin.com/in/IrfanAlee" target="_blank" rel="noopener">linkedin.com/in/IrfanAlee</a></li>
+          <li><span class="mono">GITHUB</span><a href="https://github.com/ErfaanAli" target="_blank" rel="noopener">github.com/ErfaanAli</a></li>
         </ul>
         <div class="ctas">
           <a class="btn" href="assets/docs/Irfan-Ali-Senior-GIS-Developer.pdf" download>Download CV (PDF)</a>
           <a class="btn btn-ghost" href="https://erfaanali.github.io/Portfolio/" target="_blank" rel="noopener">Software portfolio ↗</a>
         </div>
-        <footer class="foot">
-          <p>ArcGIS Maps SDK for JavaScript 4.30. Data: Esri World Imagery and World Elevation, OpenStreetMap 3D buildings, USGS, wheretheiss.at.</p>
-          <p>© <span id="year">2026</span> Irfan Ali</p>
+        <footer class="foot mono">
+          <p>Built with the ArcGIS Maps SDK for JavaScript 4.30 · Esri World Imagery &amp; World Elevation · USGS · wheretheiss.at</p>
+          <p>Client locations are approximate, city-level. © <span id="year">2026</span> Irfan Ali</p>
         </footer>
       </section>
     </main>
